@@ -40,7 +40,7 @@ const Final = ({ showFinalForm, hideFinalForm, onFormSubmit, goToLogin }) => {
         name: values.name,
         phone: values.phone,
         password: values.password,
-        password_confirmation: values.password_confirmation,
+        // password_confirmation: values.password_confirmation,
       });
       resetForm();
       onFormSubmit(); // Trigger action to switch to login screen

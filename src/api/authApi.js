@@ -1,5 +1,5 @@
 import axiosInstance from "./axiosInstance";
-import { toast } from "react-toastify"; // Import your toast library
+import { toast } from "react-toastify";
 
 const getToastMessages = () => ({
   loginSuccess: {
@@ -64,9 +64,17 @@ const getToastMessages = () => ({
   },
 });
 
-const getCurrentLanguage = () => {
-  const language = localStorage.getItem("language");
-  return language || "en"; // Default to English if no language is set
+const getCurrentLanguage = () => localStorage.getItem("language") || "en";
+
+const handleError = (error) => {
+  const language = getCurrentLanguage();
+  const toastMessages = getToastMessages();
+
+  if (error.response?.data?.message) {
+    toast.error(error.response.data.message);
+  } else {
+    toast.error(toastMessages.genericError[language]);
+  }
 };
 
 const AuthAPI = {
@@ -110,18 +118,132 @@ const AuthAPI = {
     }
   },
 
-  // Other methods follow the same pattern...
-};
+  resetPassword: async (username) => {
+    try {
+      const response = await axiosInstance.post("/reset", { username });
+      toast.success(getToastMessages().resetPasswordSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
 
-const handleError = (error) => {
-  const language = getCurrentLanguage();
-  const toastMessages = getToastMessages();
+  verifyCode: async (username, code) => {
+    try {
+      const response = await axiosInstance.post("/check-code", { username, code });
+      toast.success(getToastMessages().verifyCodeSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
 
-  if (error.response && error.response.data && error.response.data.message) {
-    toast.error(error.response.data.message);
-  } else {
-    toast.error(toastMessages.genericError[language]);
-  }
+  confirmReset: async (username, newPassword) => {
+    try {
+      const response = await axiosInstance.post("/confirm-reset", {
+        username,
+        password: newPassword,
+        password_confirmation: newPassword,
+      });
+      toast.success(getToastMessages().confirmResetSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+
+  updateProfile: async (firstName, lastName, image) => {
+    try {
+      const formData = new FormData();
+      formData.append("first_name", firstName);
+      formData.append("last_name", lastName);
+      formData.append("image", image);
+
+      const response = await axiosInstance.post("/update-profile", formData);
+      toast.success(getToastMessages().updateProfileSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+
+  register: async ({email, name, phone, password}) => {
+    try {
+      const response = await axiosInstance.post("/register", {
+        email,
+        name,
+        phone,
+        password,
+        password_confirmation: password,
+      });
+      toast.success(getToastMessages().registerSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+
+  sendOtp: async (email) => {
+    try {
+      const response = await axiosInstance.post("/send-otp", { email });
+      toast.success(getToastMessages().sendOtpSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+
+  verifyOtp: async (email, code) => {
+    try {
+      const response = await axiosInstance.post("/verify-otp", { email, code });
+      toast.success(getToastMessages().verifyOtpSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+
+  updateEmail: async (email, code) => {
+    try {
+      const response = await axiosInstance.post("/update-email", { email, code });
+      toast.success(getToastMessages().updateEmailSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+
+  updatePhone: async (phone, code) => {
+    try {
+      const response = await axiosInstance.post("/update-phone", { phone, code });
+      toast.success(getToastMessages().updatePhoneSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
+
+  updateFcmToken: async (fcmToken) => {
+    try {
+      const response = await axiosInstance.post("/fcm-token", null, {
+        params: { fcm_token: fcmToken },
+      });
+      toast.success(getToastMessages().fcmTokenSuccess[getCurrentLanguage()]);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  },
 };
 
 export default AuthAPI;
