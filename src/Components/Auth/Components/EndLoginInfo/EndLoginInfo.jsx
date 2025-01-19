@@ -5,7 +5,7 @@ import "./EndLoginInfo.css";
 
 const EndLoginInfo = () => {
   return (
-    <div className="info-bottom-login-end">
+    <div style={{visibility:"hidden"}} className="info-bottom-login-end ">
       <h2 className="text-info-top">تسجيل الدخول بواسطة</h2>
       <div className="all-social-content-end d-flex flex-wrap justify-content-center pt-4  align-items-center  gap-3">
         <a href="##" className="link-social-login">
