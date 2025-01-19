@@ -1,0 +1,76 @@
+.modal-cart-app .all-card-cart .card-cart-one {
+    border: var(--border-02);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.modal-cart-app .cards-cart-content {
+    height: 290px;
+    overflow-y: auto;
+    overflow: hidden auto;
+    padding-left: 10px;
+}
+
+/* Width */
+.modal-cart-app .cards-cart-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+.modal-cart-app .cards-cart-content::-webkit-scrollbar-track {
+    background: var(--green-02-color);
+    border-radius: 10px;
+
+}
+
+/* Handle */
+.modal-cart-app .cards-cart-content::-webkit-scrollbar-thumb {
+    background: var(--green-01-color);
+    border-radius: 10px;
+
+}
+
+
+.modal-cart-app .all-card-cart .card-cart-one .image-product img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.modal-cart-app .all-card-cart .card-cart-one :is(.title, .price-product) {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--dark-01-color);
+    padding-bottom: 10px;
+
+}
+
+.modal-cart-app .all-card-cart .card-cart-one .counter-product .btn-main {
+    width: 32px;
+    height: 32px;
+}
+
+@media screen and (max-width:420px) {
+    .modal-cart-app .all-card-cart .btn-main {
+        width: 100%;
+    }
+
+    .modal-cart-app .all-card-cart .card-cart-one {
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+
+    .modal-cart-app .all-card-cart .card-cart-one .image-product img {
+        width: 100%;
+        height: 150px;
+
+    }
+}
+
+.modal-cart-app .not-found-products {
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    transform: translate(-50%, -50%);
+}
